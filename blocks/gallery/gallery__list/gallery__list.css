@@ -1,0 +1,8 @@
+.gallery__list {
+  margin: 0 0 67px 0;
+  padding: 0;
+  list-style-type: none;
+  display: grid;
+  gap: 17px;
+  grid-template-columns: repeat(auto-fit, minmax(282px, 282px));
+}

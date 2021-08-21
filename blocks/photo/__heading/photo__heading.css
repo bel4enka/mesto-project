@@ -1,0 +1,10 @@
+.photo__heading {
+  background: #fff;
+  border-radius: 0 0 10px 10px;
+  display: flex;
+  justify-content: space-between;
+  max-width: 282px;
+  padding: 25px 15px 31px 21px;
+
+}
+
