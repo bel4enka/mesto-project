@@ -2,3 +2,15 @@
   margin: 0 auto;
   max-width: 880px;
 }
+
+@media screen and (max-width: 900px) {
+  .center {
+    max-width: 90%;
+  }
+}
+
+@media screen and (max-width: 320px) {
+  .center:first-child {
+    max-width: 100%;
+  }
+}

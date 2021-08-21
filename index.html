@@ -19,62 +19,67 @@
           <div class="profile__desc">
             <img class="profile__avatar" src="images/avatar.png" alt="фотография профиля Жак-Ив Кусто">
             <div class="profile__detail">
-              <h1 class="profile__name">Жак-Ив Кусто</h1>
-              <a href="#" class="profile__button edit-button"></a>
+              <h1 class="profile__name">Жак-Ив Кусто<a href="#" class="profile__button edit-button link"></a></h1>
               <p class="profile__activity">Исследователь океана</p>
             </div>
           </div>
-         <a href="#" class="profile__button add-button">
+         <a href="#" class="profile__button add-button link">
          </a>
         </section>
 
         <section class="gallery">
           <ul class="gallery__list">
+
             <li class="gallery__item photo">
               <figure class="photo__img"><img src="images/karachaevsk.jpg" alt="Карачаевск" class="photo__photo">
                 <figcaption class="photo__heading">
                   <p class="photo__name">Карачаевск</p>
-                  <a href="#" class="photo__heart"></a>
+                  <a href="#" class="photo__heart photo__heart_active link"></a>
                 </figcaption>
               </figure>
             </li>
+
             <li class="gallery__item photo">
               <figure class="photo__img"><img src="images/elbrus.jpg" alt="Гора Эльбрус" class="photo__photo">
                 <figcaption class="photo__heading">
                   <p class="photo__name">Гора Эльбрус</p>
-                  <a href="#" class="photo__heart"></a>
+                  <a href="#" class="photo__heart link"></a>
                 </figcaption>
               </figure>
             </li>
-            <li class="gallery__item photo__img">
+
+            <li class="gallery__item photo">
               <figure class="photo__img"><img src="images/dombai.jpg" alt="Гора Домбай" class="photo__photo">
                 <figcaption class="photo__heading">
                   <p class="photo__name">Домбай</p>
-                  <a href="#" class="photo__heart"></a>
+                  <a href="#" class="photo__heart link"></a>
                 </figcaption>
               </figure>
             </li>
-            <li class="gallery__item photo__img">
+
+            <li class="gallery__item photo">
               <figure class="photo__img"><img src="images/elbrus.jpg" alt="Гора Эльбрус" class="photo__photo">
                 <figcaption class="photo__heading">
                   <p class="photo__name">Гора Эльбрус</p>
-                  <a href="#" class="photo__heart"></a>
+                  <a href="#" class="photo__heart link"></a>
                 </figcaption>
               </figure>
             </li>
-            <li class="gallery__item photo__img">
+
+            <li class="gallery__item photo">
               <figure class="photo__img"><img src="images/dombai.jpg" alt="Домбай" class="photo__photo">
                 <figcaption class="photo__heading">
                   <p class="photo__name">Домбай</p>
-                  <a href="#" class="photo__heart"></a>
+                  <a href="#" class="photo__heart link"></a>
                 </figcaption>
               </figure>
             </li>
-            <li class="gallery__item photo__img">
+
+            <li class="gallery__item photo">
               <figure class="photo__img"><img src="images/karachaevsk.jpg" alt="Карачаево-Черкессия" class="photo__photo">
                 <figcaption class="photo__heading">
                   <p class="photo__name">Карачаево-Черкессия</p>
-                  <a href="#" class="photo__heart"></a>
+                  <a href="#" class="photo__heart link"></a>
                 </figcaption>
               </figure>
             </li>
@@ -85,9 +90,23 @@
       <!-- footer -->
       <footer class="footer center">
         <p class="footer__copy">&copy; 2021 Mesto Russia</p>
-
       </footer>
       <!-- Конец footer -->
+    </div>
+    <div class="popup">
+      <div class="popup__container">
+        <a href="#" class="popup__close"></a>
+        <form class="popup__form form-edit form">
+        <h2 class="form__header">Редактировать профиль</h2>
+          <fieldset class="form__input-container">
+            <input type="text" name="name" placeholder="Жак-Ив Кусто" class="form__item form__item_el_name" required>
+            <input type="text" name="activity" placeholder="Исследователь океана" class="form__item form__item_el_activity" required>
+          </fieldset>
+          <fieldset class="form__ctrl">
+            <button type="submit" class="form__button">Сохранить</button>
+          </fieldset>
+        </form>
+      </div>
     </div>
   </body>
 </html>
