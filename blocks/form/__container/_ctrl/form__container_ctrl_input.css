@@ -1,0 +1,9 @@
+.form__container_ctrl_input {
+  margin: 54px 0 48px 0;
+}
+
+@media screen and (max-width: 600px) {
+  .form__container_ctrl_input {
+    margin: 75px 0 45px 0;
+  }
+}

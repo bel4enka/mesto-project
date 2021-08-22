@@ -1,5 +1,5 @@
 .page {
-  width: 100%;
+  max-width: 100%;
   background: #000;
   color: #fff;
   font-family: Inter, sans-serif;

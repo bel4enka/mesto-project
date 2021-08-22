@@ -1,0 +1,21 @@
+.popup__close {
+  background: url("../../../images/close.svg");
+  width: 32px;
+  height: 32px;
+  display: block;
+  position: absolute;
+  bottom: 356px;
+  left: 506px;
+}
+
+@media screen and (max-width: 600px) {
+  .popup__close {
+    left: 300px;
+  }
+}
+
+@media screen and (max-width: 350px) {
+  .popup__close {
+    left: 250px;
+  }
+}

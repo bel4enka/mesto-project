@@ -23,3 +23,11 @@
 @import "../blocks/link/link.css";
 @import "../blocks/popup/__container/popup__container.css";
 @import "../blocks/form/form.css";
+@import "../blocks/form/__header/form__header.css";
+@import "../blocks/form/__container/form__container.css";
+@import "../blocks/form/__container/_ctrl/form__container_ctrl_input.css";
+@import "../blocks/form/__item/form__item.css";
+@import "../blocks/form/__button/form__button.css";
+@import "../blocks/popup/popup.css";
+@import "../blocks/popup/__close/popup__close.css";
+@import "../blocks/popup/_opened/popup_opened.css";

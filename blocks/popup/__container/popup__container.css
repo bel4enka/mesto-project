@@ -4,4 +4,20 @@
   background: #FFF;
   box-shadow: 0 0 25px rgba(0, 0, 0, 0.15);
   border-radius: 10px;
+  position: relative;
+  height: 50%;
+
+}
+
+@media screen and (max-width: 600px) {
+  .popup__container {
+    width: 282px;
+    padding: 25px;
+  }
+}
+
+@media screen and (max-width: 350px) {
+  .popup__container {
+    box-sizing: border-box;
+  }
 }

@@ -1,0 +1,25 @@
+.form__item {
+  border: 0;
+  min-width: 100%;
+  box-sizing: border-box;
+  border-bottom: 1px solid rgba(0, 0, 0, .2);
+  background-color: transparent;
+  margin-bottom: 30px;
+  font-size: 14px;
+  line-height: 17px;
+  color: #000;
+  padding-bottom: 13px;
+  transition: border-bottom-color;
+}
+
+.form__item:last-child {
+  margin-bottom: 0;
+}
+
+.form__item:hover {
+  border-bottom-color: rgba(51, 22, 242, .5);;
+}
+
+.form__item:focus {
+  border-bottom-color: rgba(51, 22, 242, .5);;
+}
