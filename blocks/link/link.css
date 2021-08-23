@@ -1,5 +1,6 @@
 .link {
   transition: .5s linear;
+  cursor: pointer;
 }
 
 .link:hover {

@@ -19,69 +19,64 @@
           <div class="profile__desc">
             <img class="profile__avatar" src="images/avatar.png" alt="фотография профиля Жак-Ив Кусто">
             <div class="profile__detail">
-              <h1 class="profile__name">Жак-Ив Кусто<a href="#" class="profile__button edit-button link"></a></h1>
+              <h1 class="profile__name">Жак-Ив Кусто</h1>
+              <button class="profile__edit-button link" type="submit"></button>
               <p class="profile__activity">Исследователь океана</p>
             </div>
           </div>
-         <a href="#" class="profile__button add-button link">
-         </a>
+         <button class="profile__add-button link" type="submit">
+         </button>
         </section>
 
         <section class="gallery">
           <ul class="gallery__list">
 
             <li class="gallery__item photo">
-              <figure class="photo__img"><img src="images/karachaevsk.jpg" alt="Карачаевск" class="photo__photo">
-                <figcaption class="photo__heading">
+              <img src="images/karachaevsk.jpg" alt="Карачаевск" class="photo__img">
+                <div class="photo__heading">
                   <p class="photo__name">Карачаевск</p>
-                  <a href="#" class="photo__heart photo__heart_active link"></a>
-                </figcaption>
-              </figure>
+                  <button class="photo__heart photo__heart_active link" type="submit"></button>
+                </div>
             </li>
 
             <li class="gallery__item photo">
-              <figure class="photo__img"><img src="images/elbrus.jpg" alt="Гора Эльбрус" class="photo__photo">
-                <figcaption class="photo__heading">
+              <img src="images/elbrus.jpg" alt="Гора Эльбрус" class="photo__img">
+                <div class="photo__heading">
                   <p class="photo__name">Гора Эльбрус</p>
-                  <a href="#" class="photo__heart link"></a>
-                </figcaption>
-              </figure>
+                  <button class="photo__heart link" type="submit"></button>
+                </div>
             </li>
 
             <li class="gallery__item photo">
-              <figure class="photo__img"><img src="images/dombai.jpg" alt="Гора Домбай" class="photo__photo">
-                <figcaption class="photo__heading">
+              <img src="images/dombai.jpg" alt="Гора Домбай" class="photo__img">
+                <div class="photo__heading">
                   <p class="photo__name">Домбай</p>
-                  <a href="#" class="photo__heart link"></a>
-                </figcaption>
-              </figure>
+                  <button class="photo__heart link" type="submit"></button>
+                </div>
             </li>
 
             <li class="gallery__item photo">
-              <figure class="photo__img"><img src="images/elbrus.jpg" alt="Гора Эльбрус" class="photo__photo">
-                <figcaption class="photo__heading">
+              <img src="images/elbrus.jpg" alt="Гора Эльбрус" class="photo__img">
+                <div class="photo__heading">
                   <p class="photo__name">Гора Эльбрус</p>
-                  <a href="#" class="photo__heart link"></a>
-                </figcaption>
-              </figure>
+                  <button class="photo__heart link" type="submit"></button>
+                </div>
             </li>
 
             <li class="gallery__item photo">
-              <figure class="photo__img"><img src="images/dombai.jpg" alt="Домбай" class="photo__photo">
-                <figcaption class="photo__heading">
+              <img src="images/dombai.jpg" alt="Домбай" class="photo__img">
+                <div class="photo__heading">
                   <p class="photo__name">Домбай</p>
-                  <a href="#" class="photo__heart link"></a>
-                </figcaption>
-              </figure>
+                  <button class="photo__heart link" type="submit"></button>
+                </div>
             </li>
 
             <li class="gallery__item photo">
-              <figure class="photo__img"><img src="images/karachaevsk.jpg" alt="Карачаево-Черкессия" class="photo__photo">
-                <figcaption class="photo__heading">
+              <img src="images/karachaevsk.jpg" alt="Карачаево-Черкессия" class="photo__img">
+                <div class="photo__heading">
                   <p class="photo__name">Карачаево-Черкессия</p>
-                  <a href="#" class="photo__heart link"></a>
-                </figcaption>
-              </figure>
+                  <button class="photo__heart link" type="submit"></button>
+                </div>
             </li>
           </ul>
         </section>
@@ -95,12 +90,12 @@
     </div>
     <div class="popup">
       <div class="popup__container">
-        <a href="#" class="popup__close link"></a>
-        <form class="popup__form form-edit form">
+        <button class="popup__close link" type="submit"></button>
         <h2 class="form__header">Редактировать профиль</h2>
+        <form class="popup__form form-edit form">
           <fieldset class="form__container form__container_ctrl_input">
-            <input type="text" name="name" placeholder="Имя" class="form__item form__item_el_name" required>
-            <input type="text" name="activity" placeholder="О себе" class="form__item form__item_el_activity" required>
+            <input type="text" name="name" value="Жак-Ив Кусто" placeholder="Имя" class="form__item form__item_el_name" required>
+            <input type="text" name="activity" value="Исследователь океана" placeholder="О себе" class="form__item form__item_el_activity" required>
           </fieldset>
           <fieldset class="form__container form__container_ctrl_button">
             <button type="submit" class="form__button">Сохранить</button>

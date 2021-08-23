@@ -2,6 +2,11 @@
   margin: 0;
   font-size: 18px;
   line-height: 22px;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  overflow: hidden;
+  max-width: 330px;
+  grid-area: activity;
 }
 
 @media screen and (max-width: 768px) {

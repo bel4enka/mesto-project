@@ -2,6 +2,8 @@
   .header__logo {
     margin-left: 27px;
     width: 34%;
+    background-size: cover;
+    object-fit: cover;
   }
 }
 

@@ -1,5 +1,6 @@
 .photo__heart {
   background: url("../../../images/heart.svg");
+  border: 0;
   width: 22px;
   height: 19px;
   align-self: center;

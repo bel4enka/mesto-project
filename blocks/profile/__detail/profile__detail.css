@@ -1,11 +1,14 @@
 .profile__detail  {
   margin-left: 30px;
   align-self: center;
+  display: grid;
+  grid-template-areas: 'name button' 'activity .';
 }
 
 @media screen and (max-width: 768px) {
   .profile__detail {
     margin: 26px 0 36px 0;
     text-align: center;
+    padding-left: 27px;
   }
 }
