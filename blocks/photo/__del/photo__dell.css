@@ -1,0 +1,10 @@
+.photo__del {
+  background: url("../../../images/del-button.svg") no-repeat;
+  width: 18px;
+  height: 20px;
+  border: 0;
+  cursor: pointer;
+  position: absolute;
+  right: 10px;
+  top: 10px;
+}

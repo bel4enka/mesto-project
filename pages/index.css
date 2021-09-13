@@ -4,7 +4,9 @@
 @import "../blocks/center/center.css";
 @import "../blocks/profile/__desc/profile__desc.css";
 @import "../blocks/gallery/__list/gallery__list.css";
+@import "../blocks/photo/__container/photo__container.css";
 @import "../blocks/photo/__img/photo__img.css";
+@import "../blocks/photo/__del/photo__dell.css";
 @import "../blocks/header/header.css";
 @import "../blocks/header/__logo/header__logo.css";
 @import "../blocks/profile/profile.css";
@@ -30,3 +32,6 @@
 @import "../blocks/popup/popup.css";
 @import "../blocks/popup/__close/popup__close.css";
 @import "../blocks/popup/_opened/popup_opened.css";
+@import "../blocks/popup/__container-photo/popup__container-photo.css";
+@import "../blocks/popup/__photo/popup__photo.css";
+@import "../blocks/popup/__photo-name/popup__photo-name.css";

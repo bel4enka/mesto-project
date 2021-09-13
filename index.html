@@ -31,53 +31,7 @@
         <section class="gallery">
           <ul class="gallery__list">
 
-            <li class="gallery__item photo">
-              <img src="images/karachaevsk.jpg" alt="Карачаевск" class="photo__img">
-                <div class="photo__heading">
-                  <p class="photo__name">Карачаевск</p>
-                  <button class="photo__heart photo__heart_active link" type="button"></button>
-                </div>
-            </li>
 
-            <li class="gallery__item photo">
-              <img src="images/elbrus.jpg" alt="Гора Эльбрус" class="photo__img">
-                <div class="photo__heading">
-                  <p class="photo__name">Гора Эльбрус</p>
-                  <button class="photo__heart link" type="button"></button>
-                </div>
-            </li>
-
-            <li class="gallery__item photo">
-              <img src="images/dombai.jpg" alt="Гора Домбай" class="photo__img">
-                <div class="photo__heading">
-                  <p class="photo__name">Домбай</p>
-                  <button class="photo__heart link" type="button"></button>
-                </div>
-            </li>
-
-            <li class="gallery__item photo">
-              <img src="images/elbrus.jpg" alt="Гора Эльбрус" class="photo__img">
-                <div class="photo__heading">
-                  <p class="photo__name">Гора Эльбрус</p>
-                  <button class="photo__heart link" type="button"></button>
-                </div>
-            </li>
-
-            <li class="gallery__item photo">
-              <img src="images/dombai.jpg" alt="Домбай" class="photo__img">
-                <div class="photo__heading">
-                  <p class="photo__name">Домбай</p>
-                  <button class="photo__heart link" type="button"></button>
-                </div>
-            </li>
-
-            <li class="gallery__item photo">
-              <img src="images/karachaevsk.jpg" alt="Карачаево-Черкессия" class="photo__img">
-                <div class="photo__heading">
-                  <p class="photo__name">Карачаево-Черкессия</p>
-                  <button class="photo__heart link" type="button"></button>
-                </div>
-            </li>
           </ul>
         </section>
       </main>
@@ -88,7 +42,8 @@
       </footer>
       <!-- Конец footer -->
     </div>
-    <div class="popup">
+    <!-- popup редактирования профиля -->
+    <div class="popup popup-profile">
       <div class="popup__container">
         <button class="popup__close link" type="button"></button>
         <h2 class="form__header">Редактировать профиль</h2>
@@ -103,5 +58,48 @@
         </form>
       </div>
     </div>
+    <!-- конец popup редактирования профиля -->
+
+    <!-- popup добавления нового места -->
+    <div class="popup popup-place">
+      <div class="popup__container">
+        <button class="popup__close link" type="button"></button>
+        <h2 class="form__header">Новое место</h2>
+        <form class="popup__form form-place form" name="add-place">
+          <fieldset class="form__container form__container_ctrl_input">
+            <input type="text" name="name" value="" placeholder="Название" class="form__item form__item_el_name-place" required>
+            <input type="text" name="img" value="" placeholder="Ссылка на картинку" class="form__item form__item_el_img" required>
+          </fieldset>
+          <fieldset class="form__container form__container_ctrl_button">
+            <button type="submit" class="form__button">Создать</button>
+          </fieldset>
+        </form>
+      </div>
+    </div>
+
+    <!-- popup открытия увеличенного фото -->
+    <div class="popup popup-photo">
+      <div class="popup__container-photo">
+        <button class="popup__close link" type="button"></button>
+        <img class="popup__photo" src="#" alt="#">
+        <p class="popup__photo-name">Котики</p>
+      </div>
+    </div>
+
+    <!-- Шаблон разметки элемента Месте -->
+    <template id="gallery-item">
+      <li class="gallery__item photo">
+        <div class="photo__container">
+          <img src="images/karachaevsk.jpg" alt="Карачаево-Черкессия" class="photo__img">
+          <button class="photo__del link" type="button"></button>
+        </div>
+        <div class="photo__heading">
+          <p class="photo__name">Карачаево-Черкессия</p>
+          <button class="photo__heart link" type="button"></button>
+        </div>
+      </li>
+    </template>
+    <!-- конец popup редактирования профиля -->
+  <script src="scripts/scripts.js"></script>
   </body>
 </html>
