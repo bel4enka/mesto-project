@@ -43,10 +43,10 @@
       <!-- Конец footer -->
     </div>
     <!-- popup редактирования профиля -->
-    <div class="popup popup-profile">
+    <div class="popup popup_type_profile">
       <div class="popup__container">
         <button class="popup__close link" type="button"></button>
-        <h2 class="form__header">Редактировать профиль</h2>
+        <h2 class="popup__header">Редактировать профиль</h2>
         <form class="popup__form form-edit form" name="edit-profile">
           <fieldset class="form__container form__container_ctrl_input">
             <input type="text" name="name" value="Жак-Ив Кусто" placeholder="Имя" class="form__item form__item_el_name" required>
@@ -61,10 +61,10 @@
     <!-- конец popup редактирования профиля -->
 
     <!-- popup добавления нового места -->
-    <div class="popup popup-place">
+    <div class="popup popup_type_place">
       <div class="popup__container">
         <button class="popup__close link" type="button"></button>
-        <h2 class="form__header">Новое место</h2>
+        <h2 class="popup__header">Новое место</h2>
         <form class="popup__form form-place form" name="add-place">
           <fieldset class="form__container form__container_ctrl_input">
             <input type="text" name="name" value="" placeholder="Название" class="form__item form__item_el_name-place" required>
@@ -78,7 +78,7 @@
     </div>
 
     <!-- popup открытия увеличенного фото -->
-    <div class="popup popup-photo">
+    <div class="popup popup_type_photo">
       <div class="popup__container-photo">
         <button class="popup__close link" type="button"></button>
         <img class="popup__photo" src="#" alt="#">
@@ -86,7 +86,7 @@
       </div>
     </div>
 
-    <!-- Шаблон разметки элемента Месте -->
+    <!-- Шаблон разметки элемента Место -->
     <template id="gallery-item">
       <li class="gallery__item photo">
         <div class="photo__container">
@@ -100,6 +100,7 @@
       </li>
     </template>
     <!-- конец popup редактирования профиля -->
-  <script src="scripts/scripts.js"></script>
+    <script src="scripts/initial-cards.js"></script>
+    <script src="scripts/scripts.js"></script>
   </body>
 </html>

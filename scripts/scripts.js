@@ -1,56 +1,79 @@
-const initialCards = [
-  {
-    name: 'Архыз',
-    link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/arkhyz.jpg'
-  },
-  {
-    name: 'Челябинская область',
-    link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/chelyabinsk-oblast.jpg'
-  },
-  {
-    name: 'Иваново',
-    link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/ivanovo.jpg'
-  },
-  {
-    name: 'Камчатка',
-    link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/kamchatka.jpg'
-  },
-  {
-    name: 'Холмогорский район',
-    link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/kholmogorsky-rayon.jpg'
-  },
-  {
-    name: 'Байкал',
-    link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/baikal.jpg'
-  }
-];
-
-//Открытие, закрытие popup
-function createPopup(popupSelector, openSelector) {
+/**
+ * Обработчик события на popup
+ */
+function openPopupEventHandlers(popupSelector, openSelector) {
   const popup = document.querySelector(popupSelector)
+  document.querySelector(openSelector).addEventListener('click', () => openPopup(popup))
 
-  document.querySelector(openSelector).addEventListener('click', () => popup.classList.add('popup_opened'))
-  popup.querySelector('.popup__close').addEventListener('click', () => popup.classList.remove('popup_opened'))
+}
+/**
+ * Заполняем профиль
+ */
+function setDataFormInput () {
+  const name = document.querySelector('.profile__name').textContent;
+  const activity = document.querySelector('.profile__activity').textContent;
+
+  document.querySelector('.form__item_el_name').value = name;
+  document.querySelector('.form__item_el_activity').value = activity;
+}
+/**
+ * Открытие popup
+ */
+function openPopup (popup) {
+  popup.classList.add('popup_opened')
+  setDataFormInput()
 }
 
-//Добавление начальных карточек
+/**
+ * Закрытие карточки
+ */
+function closePopup() {
+  document.querySelector('.popup_opened').classList.remove('popup_opened');
+}
+
+/**
+ * Обработчик события на крестик popup
+ */
+function setupPopupEventHandlers () {
+  const closePopupButtons = document.querySelectorAll('.popup__close');
+
+  closePopupButtons.forEach((element) => element
+    .addEventListener('click', closePopup))
+}
+
+/**
+ * Добавление начальных карточек
+ */
 function addInitialCards(initialCards) {
-  for (let i = 0; i < initialCards.length; i++) {
-    addPlace(initialCards[i].name, initialCards[i].link)
-  }
-}
+  initialCards.forEach(function (el) {
+    const card = createCard(el)
+    addCardToList(card);
+  })}
 
-//Добавление нового элемента - Места (фотографии с подписью)
-function addPlace (name, link) {
-  const placeTemplate = document.querySelector('#gallery-item').content;
-  const placeElement = placeTemplate.querySelector('.gallery__item').cloneNode(true);
+/**
+ * Добавляет карточку в список.
+ */
+function addCardToList(card) {
   const placeListContainer = document.querySelector('.gallery__list');
-  placeElement.querySelector('.photo__name').textContent = name;
-  placeElement.querySelector('.photo__img').src = link;
-  placeListContainer.append(placeElement);
+  placeListContainer.prepend(card);
 }
 
-//Редактирование профиля
+/**
+ * Создаёт новую карточку (место).
+ */
+function createCard (cardData) {
+  const placeTemplate = document.querySelector('#gallery-item').content;
+  const card = placeTemplate.querySelector('.gallery__item').cloneNode(true);
+  card.querySelector('.photo__name').textContent = cardData.name;
+  card.querySelector('.photo__img').src = cardData.link;
+  card.querySelector('.photo__img').alt = cardData.name;
+
+  return card
+}
+
+/**
+ * Редактирование профиля
+ */
 function editProfile () {
   const name = document.querySelector('.form__item_el_name').value;
   const activity = document.querySelector('.form__item_el_activity').value;
@@ -59,50 +82,58 @@ function editProfile () {
 
   profileName.textContent = name;
   profileActivity.textContent = activity;
-}
 
-//Обработчик события на формы ввода
+}
+/**
+ * Обработчик события на формы ввода
+ */
 function getDataInput (formSelector, callFunc) {
   document.querySelector(formSelector).addEventListener('submit', function (e) {
-    document.querySelector('.popup_opened').classList.remove('popup_opened');
 
+    closePopup()
     e.preventDefault()
     callFunc();
+    document.querySelector(formSelector).reset();
   });
 }
-
-//Удаление Места (фотографии)
-function dellPlace(target) {
+/**
+ * Удаление карточки (места)
+ */
+function deletePlace(target) {
   target.closest('.gallery__item').remove()
 }
-
-//Переключение состояния лайков
+/**
+ * Переключение состояния лайков
+ */
 function toggleLike(target) {
   target.classList.toggle('photo__heart_active')
 }
 
-//открытие увеличенной фотографии Места
+/**
+ * открытие увеличенной фотографии карточки (места)
+ */
 function openPlace(target) {
-  const popup = document.querySelector('.popup-photo');
+  const popup = document.querySelector('.popup_type_photo');
   const popupPhotoTarget = target.src;
   const popupPhoto = document.querySelector('.popup__photo');
   const popupPhotoName = document.querySelector('.popup__photo-name');
   const popupPhotoNameTarget = target.closest('.gallery__item').querySelector('.photo__name').textContent;
 
-  popup.classList.add('popup_opened')
-  popup.querySelector('.popup__close').addEventListener('click', () => popup.classList.remove('popup_opened'))
+  openPopup(popup)
+  setupPopupEventHandlers()
 
   popupPhotoName.textContent = popupPhotoNameTarget;
   popupPhoto.src = popupPhotoTarget;
   popupPhoto.alt = popupPhotoNameTarget;
 }
-
-//Обработчики событий на общий контейнер с фотографиями Мест
+/**
+ * Обработчики событий на общий контейнер с фотографиями Мест
+ */
 document.querySelector('.gallery__list').addEventListener('click', function (e) {
    const target = e.target;
 
    if (target.classList.contains('photo__del')) {
-     dellPlace(target)
+     deletePlace(target)
    }
    else if (target.classList.contains('photo__heart')) {
      toggleLike(target)
@@ -111,16 +142,27 @@ document.querySelector('.gallery__list').addEventListener('click', function (e) 
      openPlace(target)
    }})
 
-createPopup('.popup-profile', '.profile__edit-button')
-createPopup('.popup-place', '.profile__add-button')
+
+openPopupEventHandlers('.popup_type_profile', '.profile__edit-button')
+openPopupEventHandlers('.popup_type_place', '.profile__add-button')
+setupPopupEventHandlers()
+
 addInitialCards(initialCards)
 
-//Вызов обработчика событий для каждой из форм. Первый аргумент селектор формы, второй название функции для вызова внутри
+/**
+ * Вызов обработчика событий для каждой из форм. Первый аргумент селектор формы, второй название функции для вызова внутри
+ */
 getDataInput('.form-edit', editProfile);
 
-//Дополнительно передаём данные из формы
+/**
+ * Дополнительно передаём данные из формы
+ */
 getDataInput('.form-place', function () {
-  const name = document.querySelector('.form__item_el_name-place').value;
-  const link = document.querySelector('.form__item_el_img').value;
-  addPlace(name, link)
+
+  const cardData = {
+    name: document.querySelector('.form__item_el_name-place').value,
+    link: document.querySelector('.form__item_el_img').value
+  }
+  const card = createCard(cardData)
+  addCardToList(card);
 });
