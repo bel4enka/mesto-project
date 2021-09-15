@@ -1,29 +1,19 @@
 /**
- * Обработчик события на popup
+ * Задаёт блок, который должен быть показан по нажатию на указанный элемент.
  */
-function openPopupEventHandlers(popupSelector, openSelector) {
+function setOpenPopupEventHandlers(popupSelector, openSelector, callback) {
   const popup = document.querySelector(popupSelector)
-  document.querySelector(openSelector).addEventListener('click', () => openPopup(popup))
-
+  document.querySelector(openSelector).addEventListener('click', function () {
+    callback()
+    openPopup(popup)})
 }
-/**
- * Заполняем профиль
- */
-function setDataFormInput () {
-  const name = document.querySelector('.profile__name').textContent;
-  const activity = document.querySelector('.profile__activity').textContent;
 
-  document.querySelector('.form__item_el_name').value = name;
-  document.querySelector('.form__item_el_activity').value = activity;
-}
 /**
- * Открытие popup
+ * Открывает popup
  */
-function openPopup (popup) {
+function openPopup(popup) {
   popup.classList.add('popup_opened')
-  setDataFormInput()
 }
-
 /**
  * Закрытие карточки
  */
@@ -34,11 +24,13 @@ function closePopup() {
 /**
  * Обработчик события на крестик popup
  */
-function setupPopupEventHandlers () {
+function setupPopupEventHandlers() {
   const closePopupButtons = document.querySelectorAll('.popup__close');
 
-  closePopupButtons.forEach((element) => element
-    .addEventListener('click', closePopup))
+  closePopupButtons.forEach((element) => {
+    const popup = element.closest('.popup')
+    element.addEventListener('click', () => closePopup(popup))
+  })
 }
 
 /**
@@ -48,7 +40,8 @@ function addInitialCards(initialCards) {
   initialCards.forEach(function (el) {
     const card = createCard(el)
     addCardToList(card);
-  })}
+  })
+}
 
 /**
  * Добавляет карточку в список.
@@ -61,7 +54,7 @@ function addCardToList(card) {
 /**
  * Создаёт новую карточку (место).
  */
-function createCard (cardData) {
+function createCard(cardData) {
   const placeTemplate = document.querySelector('#gallery-item').content;
   const card = placeTemplate.querySelector('.gallery__item').cloneNode(true);
   card.querySelector('.photo__name').textContent = cardData.name;
@@ -74,7 +67,7 @@ function createCard (cardData) {
 /**
  * Редактирование профиля
  */
-function editProfile () {
+function editProfile() {
   const name = document.querySelector('.form__item_el_name').value;
   const activity = document.querySelector('.form__item_el_activity').value;
   const profileName = document.querySelector('.profile__name')
@@ -84,24 +77,27 @@ function editProfile () {
   profileActivity.textContent = activity;
 
 }
+
 /**
  * Обработчик события на формы ввода
  */
-function getDataInput (formSelector, callFunc) {
-  document.querySelector(formSelector).addEventListener('submit', function (e) {
+function setFormSubmitHandler(formSelector, callFunc) {
+  let form = document.querySelector(formSelector);
+  form.addEventListener('submit', function (e) {
 
     closePopup()
     e.preventDefault()
-    callFunc();
-    document.querySelector(formSelector).reset();
+    callFunc(form);
   });
 }
+
 /**
  * Удаление карточки (места)
  */
 function deletePlace(target) {
   target.closest('.gallery__item').remove()
 }
+
 /**
  * Переключение состояния лайков
  */
@@ -110,7 +106,7 @@ function toggleLike(target) {
 }
 
 /**
- * открытие увеличенной фотографии карточки (места)
+ * Открывает фотографию карточки (места).
  */
 function openPlace(target) {
   const popup = document.querySelector('.popup_type_photo');
@@ -120,31 +116,37 @@ function openPlace(target) {
   const popupPhotoNameTarget = target.closest('.gallery__item').querySelector('.photo__name').textContent;
 
   openPopup(popup)
-  setupPopupEventHandlers()
 
   popupPhotoName.textContent = popupPhotoNameTarget;
   popupPhoto.src = popupPhotoTarget;
   popupPhoto.alt = popupPhotoNameTarget;
 }
+
 /**
  * Обработчики событий на общий контейнер с фотографиями Мест
  */
 document.querySelector('.gallery__list').addEventListener('click', function (e) {
-   const target = e.target;
+  const target = e.target;
 
-   if (target.classList.contains('photo__del')) {
-     deletePlace(target)
-   }
-   else if (target.classList.contains('photo__heart')) {
-     toggleLike(target)
-   }
-   else if (target.classList.contains('photo__img')) {
-     openPlace(target)
-   }})
+  if (target.classList.contains('photo__del')) {
+    deletePlace(target)
+  } else if (target.classList.contains('photo__heart')) {
+    toggleLike(target)
+  } else if (target.classList.contains('photo__img')) {
+    openPlace(target)
+  }
+})
 
 
-openPopupEventHandlers('.popup_type_profile', '.profile__edit-button')
-openPopupEventHandlers('.popup_type_place', '.profile__add-button')
+setOpenPopupEventHandlers('.popup_type_profile', '.profile__edit-button', function () {
+  const name = document.querySelector('.profile__name').textContent;
+  const activity = document.querySelector('.profile__activity').textContent;
+
+  document.querySelector('.form__item_el_name').value = name;
+  document.querySelector('.form__item_el_activity').value = activity;
+})
+setOpenPopupEventHandlers('.popup_type_place', '.profile__add-button', function () {
+})
 setupPopupEventHandlers()
 
 addInitialCards(initialCards)
@@ -152,12 +154,13 @@ addInitialCards(initialCards)
 /**
  * Вызов обработчика событий для каждой из форм. Первый аргумент селектор формы, второй название функции для вызова внутри
  */
-getDataInput('.form-edit', editProfile);
+setFormSubmitHandler('.form-edit', editProfile, function () {
+});
 
 /**
  * Дополнительно передаём данные из формы
  */
-getDataInput('.form-place', function () {
+setFormSubmitHandler('.form-place', function (form) {
 
   const cardData = {
     name: document.querySelector('.form__item_el_name-place').value,
@@ -165,4 +168,6 @@ getDataInput('.form-place', function () {
   }
   const card = createCard(cardData)
   addCardToList(card);
+
+  form.reset();
 });
