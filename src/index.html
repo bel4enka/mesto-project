@@ -5,19 +5,19 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
   <title>Место</title>
-  <link rel="stylesheet" href="pages/index.css">
+
 </head>
   <body class="root">
     <div class="page">
       <!-- header -->
       <header class="header center">
-       <img src="images/logo.svg" class="header__logo" alt="логотип">
+       <img src="<%=require('./images/logo.svg')%>" class="header__logo" alt="логотип">
       </header>
       <!-- Конец header -->
       <main class="main center">
         <section class="profile">
           <div class="profile__desc">
-            <img class="profile__avatar" src="images/avatar.png" alt="фотография профиля Жак-Ив Кусто">
+            <img class="profile__avatar" src="<%=require('./images/avatar.png')%>" alt="фотография профиля Жак-Ив Кусто">
             <div class="profile__detail">
               <h1 class="profile__name">Жак-Ив Кусто</h1>
               <button class="profile__edit-button link" type="button"></button>
@@ -30,8 +30,6 @@
 
         <section class="gallery">
           <ul class="gallery__list">
-
-
           </ul>
         </section>
       </main>
@@ -47,10 +45,18 @@
       <div class="popup__container">
         <button class="popup__close link" type="button"></button>
         <h2 class="popup__header">Редактировать профиль</h2>
-        <form class="popup__form form-edit form" name="edit-profile">
+        <form class="popup__form form-edit form" name="edit-profile" novalidate>
           <fieldset class="form__container form__container_ctrl_input">
-            <input type="text" name="name" value="Жак-Ив Кусто" placeholder="Имя" class="form__item form__item_el_name" required>
-            <input type="text" name="activity" value="Исследователь океана" placeholder="О себе" class="form__item form__item_el_activity" required>
+            <div class="form__wrap">
+              <input id="name-input" type="text" name="name" value="Жак-Ив Кусто"
+                     placeholder="Имя" class="form__item form__item_el_name" minlength="2" maxlength="40" required >
+              <span class="name-input-error form__item-error form__item-error_active"></span>
+            </div>
+            <div class="form__wrap">
+              <input id="activity-input" type="text" name="activity"
+                     value="Исследователь океана" placeholder="О себе" class="form__item form__item_el_activity" minlength="2" maxlength="200" required>
+              <span class="activity-input-error form__item-error"></span>
+            </div>
           </fieldset>
           <fieldset class="form__container form__container_ctrl_button">
             <button type="submit" class="form__button">Сохранить</button>
@@ -65,10 +71,17 @@
       <div class="popup__container">
         <button class="popup__close link" type="button"></button>
         <h2 class="popup__header">Новое место</h2>
-        <form class="popup__form form-place form" name="add-place">
+        <form class="popup__form form-place form" name="add-place" novalidate>
           <fieldset class="form__container form__container_ctrl_input">
-            <input type="text" name="name" value="" placeholder="Название" class="form__item form__item_el_name-place" required>
-            <input type="text" name="img" value="" placeholder="Ссылка на картинку" class="form__item form__item_el_img" required>
+            <div class="form__wrap">
+              <input id="named-input" type="text" name="name" value="" placeholder="Название"
+                     class="form__item form__item_el_name-place"  minlength="2" maxlength="30" required>
+              <span class="named-input-error form__item-error"></span>
+            </div>
+            <div class="form__wrap">
+              <input id="link-input" type="url"  name="img" value="" placeholder="Ссылка на картинку" class="form__item form__item_el_img" required>
+              <span class="link-input-error form__item-error"></span>
+            </div>
           </fieldset>
           <fieldset class="form__container form__container_ctrl_button">
             <button type="submit" class="form__button">Создать</button>
@@ -86,11 +99,12 @@
       </div>
     </div>
 
+
     <!-- Шаблон разметки элемента Место -->
     <template id="gallery-item">
       <li class="gallery__item photo">
         <div class="photo__container">
-          <img src="images/karachaevsk.jpg" alt="Карачаево-Черкессия" class="photo__img">
+          <img src="<%=require('./images/karachaevsk.jpg')%>" alt="Карачаево-Черкессия" class="photo__img">
           <button class="photo__del link" type="button"></button>
         </div>
         <div class="photo__heading">
@@ -100,7 +114,5 @@
       </li>
     </template>
     <!-- конец popup редактирования профиля -->
-    <script src="scripts/initial-cards.js"></script>
-    <script src="scripts/scripts.js"></script>
   </body>
 </html>

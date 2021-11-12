@@ -1,0 +1,11 @@
+.form__item-error_active {
+  color: #FF0000;
+  font-family: Inter, sans-serif, Arial;
+  font-style: normal;
+  font-weight: normal;
+  font-size: 12px;
+  line-height: 15px;
+  position: absolute;
+  top: 40px;
+  left: 0;
+}

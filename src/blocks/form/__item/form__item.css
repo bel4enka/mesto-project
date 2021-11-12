@@ -4,7 +4,7 @@
   box-sizing: border-box;
   border-bottom: 1px solid rgba(0, 0, 0, .2);
   background-color: transparent;
-  margin-bottom: 30px;
+  margin-bottom: 60px;
   font-size: 14px;
   line-height: 17px;
   color: #000;
@@ -22,4 +22,5 @@
 
 .form__item:focus {
   border-bottom-color: rgba(51, 22, 242, .5);;
+  outline: none;
 }
