@@ -1,21 +1,21 @@
-import './styles/index.css';
+import './index.css';
 
 
-import {enableValidation} from './components/validate.js';
-import {closePopup} from './components/modal.js';
-import {deletePlace, toggleLike, openPlace} from './components/cards.js';
+import {enableValidation} from '../components/validate.js';
+import {closePopup} from '../components/modal.js';
+import {deletePlace, toggleLike, openPlace} from '../components/cards.js';
 
+
+const name = document.querySelector('.form__item_el_name');
+const activity = document.querySelector('.form__item_el_activity');
+const profileName = document.querySelector('.profile__name')
+const profileActivity = document.querySelector('.profile__activity');
 /**
  * Редактирование профиля
  */
 export function editProfile() {
-    const name = document.querySelector('.form__item_el_name').value;
-    const activity = document.querySelector('.form__item_el_activity').value;
-    const profileName = document.querySelector('.profile__name')
-    const profileActivity = document.querySelector('.profile__activity');
-
-    profileName.textContent = name;
-    profileActivity.textContent = activity;
+    profileName.textContent = name.value;
+    profileActivity.textContent = activity.value;
 }
 /**
  * Обработчики событий на общий контейнер с фотографиями Мест
@@ -36,7 +36,7 @@ document.querySelector('.gallery__list').addEventListener('click', function (e) 
  * Обработчик события на формы ввода
  */
 export function setFormSubmitHandler(formSelector, callFunc) {
-    let form = document.querySelector(formSelector);
+    const form = document.querySelector(formSelector);
     form.addEventListener('submit', function (e) {
         closePopup()
         callFunc(form);

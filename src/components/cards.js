@@ -1,6 +1,13 @@
 import {initialCards} from "./initial-cards.js";
-import { setFormSubmitHandler, editProfile,  } from '../index.js'
+import { setFormSubmitHandler, editProfile,  } from '../pages/index'
 import { openPopup, setupPopupEventHandlers, setOpenPopupEventHandlers } from './modal.js'
+
+const imagePopup = document.querySelector('.popup_type_photo');
+const placeListContainer = document.querySelector('.gallery__list');
+const popupPhoto = document.querySelector('.popup__photo');
+const popupPhotoName = document.querySelector('.popup__photo-name');
+const formElementName = document.querySelector('.form__item_el_name');
+const formElementActivity = document.querySelector('.form__item_el_activity');
 
 /**
  * Добавление начальных карточек
@@ -16,7 +23,6 @@ function addInitialCards(initialCards) {
  * Добавляет карточку в список.
  */
 function addCardToList(card) {
-  const placeListContainer = document.querySelector('.gallery__list');
   placeListContainer.prepend(card);
 }
 
@@ -50,13 +56,10 @@ export function toggleLike(target) {
  * Открывает фотографию карточки (места).
  */
 export function openPlace(target) {
-  const popup = document.querySelector('.popup_type_photo');
   const popupPhotoTarget = target.src;
-  const popupPhoto = document.querySelector('.popup__photo');
-  const popupPhotoName = document.querySelector('.popup__photo-name');
   const popupPhotoNameTarget = target.closest('.gallery__item').querySelector('.photo__name').textContent;
 
-  openPopup(popup)
+  openPopup(imagePopup)
 
   popupPhotoName.textContent = popupPhotoNameTarget;
   popupPhoto.src = popupPhotoTarget;
@@ -69,8 +72,8 @@ setOpenPopupEventHandlers ('.popup_type_profile', '.profile__edit-button', funct
   const activity = document.querySelector('.profile__activity').textContent;
   const form = document.querySelector('.form-edit')
 
-  document.querySelector('.form__item_el_name').value = name;
-  document.querySelector('.form__item_el_activity').value = activity;
+  formElementName.value = name;
+  formElementActivity.value = activity;
   form.validate()
 })
 setOpenPopupEventHandlers('.popup_type_place', '.profile__add-button', function () {
@@ -96,5 +99,5 @@ setFormSubmitHandler('.form-place', function (form) {
   }
   const card = createCard(cardData)
   addCardToList(card);
-  form.reset();
+  form.resetValidate()
 });

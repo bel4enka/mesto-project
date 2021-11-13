@@ -56,11 +56,14 @@ export const setEventListener = (formElement, enableValidation) => {
   })
 
   formElement.validate = function () {
-    const inputList = Array.from(formElement.querySelectorAll(enableValidation.inputSelector))
-
     inputList.forEach(inputElement => {
-        checkInputValidity(inputElement, formElement, enableValidation)
+      checkInputValidity(inputElement, formElement, enableValidation)
     })
+    toggleButtonState(submitButton, inputList, enableValidation)
+  }
+
+  formElement.resetValidate = function () {
+    formElement.reset()
     toggleButtonState(submitButton, inputList, enableValidation)
   }
 
