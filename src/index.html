@@ -17,11 +17,11 @@
       <main class="main center">
         <section class="profile">
           <div class="profile__desc">
-            <img class="profile__avatar" src="<%=require('./images/avatar.png')%>" alt="фотография профиля Жак-Ив Кусто">
+            <img class="profile__avatar" src="<%=require('./images/avatar.png')%>" alt="фотография профиля">
             <div class="profile__detail">
-              <h1 class="profile__name">Жак-Ив Кусто</h1>
+              <h1 class="profile__name"></h1>
               <button class="profile__edit-button link" type="button"></button>
-              <p class="profile__activity">Исследователь океана</p>
+              <p class="profile__activity"></p>
             </div>
           </div>
          <button class="profile__add-button link" type="button">
@@ -102,14 +102,17 @@
 
     <!-- Шаблон разметки элемента Место -->
     <template id="gallery-item">
-      <li class="gallery__item photo">
+      <li class="gallery__item photo" data-id="">
         <div class="photo__container">
           <img src="<%=require('./images/karachaevsk.jpg')%>" alt="Карачаево-Черкессия" class="photo__img">
           <button class="photo__del link" type="button"></button>
         </div>
         <div class="photo__heading">
           <p class="photo__name">Карачаево-Черкессия</p>
-          <button class="photo__heart link" type="button"></button>
+          <div class="photo__wrap-like">
+            <button class="photo__heart link" type="button"></button>
+            <span class="photo__likes"></span>
+          </div>
         </div>
       </li>
     </template>

@@ -4,6 +4,7 @@ import './index.css';
 import {enableValidation} from '../components/validate.js';
 import {closePopup} from '../components/modal.js';
 import {deletePlace, toggleLike, openPlace} from '../components/cards.js';
+import {putDataAvatar} from "../components/api";
 
 
 const name = document.querySelector('.form__item_el_name');
@@ -14,8 +15,15 @@ const profileActivity = document.querySelector('.profile__activity');
  * Редактирование профиля
  */
 export function editProfile() {
-    profileName.textContent = name.value;
-    profileActivity.textContent = activity.value;
+   profileName.textContent = name.value;
+   profileActivity.textContent = activity.value;
+
+  const
+    avatar = {
+    name: name.value,
+    about: activity.value,
+  }
+  putDataAvatar(avatar)
 }
 /**
  * Обработчики событий на общий контейнер с фотографиями Мест
@@ -51,7 +59,6 @@ document.querySelectorAll('.popup')
             closePopup()
         }
         e.stopPropagation();
-
     }))
 
 enableValidation({

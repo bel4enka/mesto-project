@@ -1,0 +1,4 @@
+.photo__wrap-like {
+  display: flex;
+  flex-direction: column;
+}

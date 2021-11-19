@@ -21,6 +21,8 @@
 @import "../blocks/photo/__heart/photo__heart.css";
 @import "../blocks/photo/__heart/_active/photo__heart_active.css";
 @import "../blocks/photo/__name/photo__name.css";
+@import "../blocks/photo/__wrap-like/photo__wrap-like.css";
+@import "../blocks/photo/__likes/photo__likes.css";
 @import "../blocks/link/link.css";
 @import "../blocks/popup/__container/popup__container.css";
 @import "../blocks/form/form.css";
