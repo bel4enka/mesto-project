@@ -11,6 +11,7 @@
 @import "../blocks/header/__logo/header__logo.css";
 @import "../blocks/profile/profile.css";
 @import "../blocks/profile/__avatar/profile__avatar.css";
+@import "../blocks/profile/__avatar-link/profile__avatar-link.css";
 @import "../blocks/profile/__detail/profile__detail.css";
 @import "../blocks/profile/__add-button/profile__add-button.css";
 @import "../blocks/profile/__edit-button/profile__edit-button.css";
@@ -34,6 +35,7 @@
 @import "../blocks/form/__item/_type/form__item_type_error.css";
 @import "../blocks/form/__button/form__button.css";
 @import "../blocks/form/__button/_disabled/form__button_disabled.css";
+@import "../blocks/form/__button/_loading/form__button_loading.css";
 @import "../blocks/form/__wrap/form__wrap.css";
 @import "../blocks/popup/popup.css";
 @import "../blocks/popup/__close/popup__close.css";

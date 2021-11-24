@@ -6,16 +6,19 @@ const config = {
   }
 }
 
-export function getDataAvatar () {
+const parseResponse = (res) => {
+  if(res.ok){
+    return res.json();
+  }
+
+  return Promise.reject(`Ошибка ${res.status}`)
+}
+
+export function getDataUser () {
   return fetch(`${config.baseUrl}/users/me`, {
     headers: config.headers
   })
-    .then((res) => {
-      if (res.ok) {
-        return res.json();
-      }
-      return Promise.reject(res.status);
-    })
+    .then(parseResponse)
 }
 
 export const getInitialCards = () => {
@@ -23,17 +26,11 @@ export const getInitialCards = () => {
       headers: config.headers
     }
   )
-    .then(res => {
-      if (res.ok) {
-        return res.json();
-      }
-
-      // если ошибка, отклоняем промис
-      return Promise.reject(`Ошибка: ${res.status}`);
-    });
+    .then(parseResponse)
 }
 
-export function putDataAvatar (avatar) {
+
+export function putUserData (avatar) {
   return fetch(`${config.baseUrl}/users/me`, {
     method: 'PATCH',
     headers: config.headers,
@@ -41,8 +38,10 @@ export function putDataAvatar (avatar) {
       name: avatar.name,
       about: avatar.about,
     })
-  });
+  })
+    .then(parseResponse)
 }
+
 
 export function putNewCard (card) {
   return fetch(`${config.baseUrl}/cards`, {
@@ -53,15 +52,7 @@ export function putNewCard (card) {
       link: card.link,
     })
   })
-    .then(res => {
-      if (res.ok) {
-        return res.json();
-      }
-
-      // если ошибка, отклоняем промис
-      return Promise.reject(`Ошибка: ${res.status}`);
-    });
-
+    .then(parseResponse)
 }
 
 export const delCard = (cardId) => {
@@ -69,28 +60,14 @@ export const delCard = (cardId) => {
     method: 'DELETE',
     headers: config.headers
   })
-    .then(res => {
-      if (res.ok) {
-        return true;
-      }
-
-      // если ошибка, отклоняем промис
-      return Promise.reject(`Ошибка: ${res.status}`);
-    });
+    .then(parseResponse)
 }
 export function putLike (cardId) {
   return fetch(`${config.baseUrl}/cards/likes/${cardId}`, {
     method: 'PUT',
     headers: config.headers,
   })
-    .then(res => {
-      if (res.ok) {
-        return res.json();
-      }
-
-      // если ошибка, отклоняем промис
-      return Promise.reject(`Ошибка: ${res.status}`);
-    });
+    .then(parseResponse)
 
 }
 
@@ -99,12 +76,17 @@ export const delLike = (cardId) => {
     method: 'DELETE',
     headers: config.headers
   })
-    .then(res => {
-      if (res.ok) {
-        return res.json();
-      }
+    .then(parseResponse)
+}
 
-      // если ошибка, отклоняем промис
-      return Promise.reject(`Ошибка: ${res.status}`);
-    });
+export function putImgAvatar (avatarImg) {
+  return fetch(`${config.baseUrl}/users/me/avatar`, {
+    method: 'PATCH',
+    headers: config.headers,
+    body: JSON.stringify({
+      avatar: avatarImg.avatar
+    })
+
+  })
+    .then(parseResponse)
 }

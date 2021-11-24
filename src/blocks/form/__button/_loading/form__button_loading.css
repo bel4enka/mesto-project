@@ -1,0 +1,11 @@
+.form__button_loading {
+  position: relative;
+}
+
+.form__button_loading:after {
+  content: '';
+  display: inline-block;
+  position: absolute;
+  width: auto;
+  height: auto;
+}

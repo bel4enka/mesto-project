@@ -1,17 +1,14 @@
 import {initialCards} from "./initial-cards.js";
-import { setFormSubmitHandler, editProfile,  } from '../pages/index'
+import {setFormSubmitHandler, editProfile, editAvatar,} from '../pages/index'
+import { openPopup, setupPopupEventHandlers, setOpenPopupEventHandlers, closePopup} from './modal.js'
 import {
-  openPopup,
-  setupPopupEventHandlers,
-  setOpenPopupEventHandlers,
-  closePopup
-} from './modal.js'
-import {
-  delCard, delLike,
-  getDataAvatar,
+  delCard,
+  delLike,
+  getDataUser,
   getInitialCards,
-  putDataAvatar, putLike,
-  putNewCard
+  putUserData,
+  putLike,
+  putNewCard,
 } from './api.js'
 
 const imagePopup = document.querySelector('.popup_type_photo');
@@ -22,18 +19,32 @@ const formElementName = document.querySelector('.form__item_el_name');
 const formElementActivity = document.querySelector('.form__item_el_activity');
 let nameAvatar = document.querySelector('.profile__name');
 let activityAvatar = document.querySelector('.profile__activity');
-let imgAvatar = document.querySelector('.profile__avatar').src;
+let imgAvatar = document.querySelector('.profile__avatar');
 let user;
+const formEdit = document.querySelector('.form-edit');
+let cards;
 
-function getAvatar () {
-  getDataAvatar()
+export function renderLoading(isLoading) {
+
+  if (isLoading) {
+    formEdit.querySelector('.form__button').textContent = 'Сохранение...'
+  } else {
+    formEdit.querySelector('.form__button').textContent = 'Сохранить'
+
+  }
+}
+
+export function getUser () {
+ return getDataUser()
     .then((res) => {
-      nameAvatar.textContent = res.name;
-      activityAvatar.textContent = res.about;
-      imgAvatar = res.avatar;
-      user = {id: res._id}
-    })
+      user = {
+        id: res._id,
+        name: res.name,
+        about: res.about,
+        avatar: res.avatar
+      }
 
+    })
     .catch((e) => {
       console.log(e)
     })
@@ -43,13 +54,12 @@ function getAvatar () {
  * Добавление начальных карточек
  */
 function addInitialCards() {
-
-  getInitialCards()
+ return  getInitialCards()
     .then((res) => {
-      res.forEach(function (el) {
-        const card = createCard(el)
-        addCardToList(card);
-      })
+      cards = [];
+      for(let i = 0; i < res.length; i++) {
+        cards.push(res[i])
+      }
     })
     .catch((e) => {
       console.log(e)
@@ -67,14 +77,16 @@ function addCardToList(card) {
  * Проверяет авторство карточки и удаляет кнопку удаления
  */
 function isMyCard (card, cardData) {
-  getAvatar()
-  if (!user.id === cardData.owner._id) {
+  if (user.id.toString() !== cardData.owner.toString()) {
     card.querySelector('.photo__del').remove()
   }
 }
+/**
+ * Проверяет является ли лайк текущего автора
+ */
 function isMyLike(target, selector) {
   for(let i = 0; i < target.likes.length; i++) {
-    if(target.likes[i]._id === user.id) {
+    if(target.likes[i]._id.toString() === user.id.toString()) {
       selector.classList.add('photo__heart_active')
     }
   }
@@ -94,9 +106,7 @@ function createCard(cardData) {
   if (cardData.likes.length > 0) {
     card.querySelector('.photo__likes').textContent = cardData.likes.length;
     isMyLike(cardData, card.querySelector('.photo__heart'))
-
   }
-
 
   isMyCard(card, cardData)
   return card
@@ -115,7 +125,6 @@ export function deletePlace(target) {
  * Переключение состояния лайков
  */
 export function toggleLike(target) {
-  // target.classList.toggle('photo__heart_active')
   const cardId = target.closest('.gallery__item').getAttribute('data-id')
     if (target.classList.contains('photo__heart_active')) {
       delLike(cardId)
@@ -127,7 +136,6 @@ export function toggleLike(target) {
           } else {
             target.nextElementSibling.textContent = '';
           }
-
         })
         .catch((e) => {
           console.log(e)
@@ -159,7 +167,27 @@ export function openPlace(target) {
   popupPhoto.src = popupPhotoTarget;
   popupPhoto.alt = popupPhotoNameTarget;
 }
-getAvatar()
+
+
+
+
+Promise.all([
+  getUser(),
+  addInitialCards()
+]).then(() => {
+    nameAvatar.textContent = user.name;
+    activityAvatar.textContent = user.about;
+    imgAvatar.src = user.avatar;
+
+    cards.forEach(function (el) {
+      const card = createCard(el)
+      addCardToList(card);
+      })
+  })
+  .catch(err => {
+    console.error(err);
+  });
+
 setOpenPopupEventHandlers ('.popup_type_profile', '.profile__edit-button', function () {
 
 
@@ -172,15 +200,19 @@ setOpenPopupEventHandlers ('.popup_type_profile', '.profile__edit-button', funct
 })
 setOpenPopupEventHandlers('.popup_type_place', '.profile__add-button', function () {
 })
+
+setOpenPopupEventHandlers('.popup_type_avatar', '.profile__avatar-link', function () {
+
+})
 setupPopupEventHandlers()
 
-addInitialCards()
 
 /**
  * Вызов обработчика событий для каждой из форм. Первый аргумент селектор формы, второй название функции для вызова внутри
  */
-setFormSubmitHandler('.form-edit', editProfile, function () {
-});
+setFormSubmitHandler('.form-edit', editProfile);
+
+setFormSubmitHandler('.form-avatar', editAvatar);
 
 /**
  * Дополнительно передаём данные из формы
@@ -194,6 +226,7 @@ setFormSubmitHandler('.form-place', function (form) {
     owner: user.id
   }
   const card = createCard(cardData)
+
   addCardToList(card);
   form.resetValidate()
 
@@ -204,4 +237,5 @@ setFormSubmitHandler('.form-place', function (form) {
     .catch((e) => {
       console.log(e)
     })
+  closePopup()
 });

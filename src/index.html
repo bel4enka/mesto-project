@@ -17,7 +17,9 @@
       <main class="main center">
         <section class="profile">
           <div class="profile__desc">
-            <img class="profile__avatar" src="<%=require('./images/avatar.png')%>" alt="фотография профиля">
+            <a href="#" class="profile__avatar-link">
+              <img class="profile__avatar" src="#" alt="фотография профиля">
+            </a>
             <div class="profile__detail">
               <h1 class="profile__name"></h1>
               <button class="profile__edit-button link" type="button"></button>
@@ -59,7 +61,7 @@
             </div>
           </fieldset>
           <fieldset class="form__container form__container_ctrl_button">
-            <button type="submit" class="form__button">Сохранить</button>
+            <button type="submit" class="form__button form__button_loading">Сохранить</button>
           </fieldset>
         </form>
       </div>
@@ -85,6 +87,38 @@
           </fieldset>
           <fieldset class="form__container form__container_ctrl_button">
             <button type="submit" class="form__button">Создать</button>
+          </fieldset>
+        </form>
+      </div>
+    </div>
+
+    <!-- popup подтверждения удаления -->
+    <div class="popup popup_type_confirm">
+      <div class="popup__container">
+        <button class="popup__close link" type="button"></button>
+        <h2 class="popup__header">Вы уверены?</h2>
+        <form class="popup__form form-confirm form" name="add-place" novalidate>
+          <fieldset class="form__container form__container_ctrl_button">
+            <button type="submit" class="form__button">Да</button>
+          </fieldset>
+        </form>
+      </div>
+    </div>
+
+    <!-- popup редактирования аватара для профиля -->
+    <div class="popup popup_type_avatar">
+      <div class="popup__container">
+        <button class="popup__close link" type="button"></button>
+        <h2 class="popup__header">Обновить аватар</h2>
+        <form class="popup__form form-avatar form" name="new-avatar" novalidate>
+          <fieldset class="form__container form__container_ctrl_input">
+            <div class="form__wrap">
+              <input id="link-avatar-input" type="url" name="img-avatar" value="" placeholder="Ссылка на картинку" class="form__item form__item_el_img" required>
+              <span class="link-avatar-input-error form__item-error"></span>
+            </div>
+          </fieldset>
+          <fieldset class="form__container form__container_ctrl_button">
+            <button type="submit" class="form__button">Сохранить</button>
           </fieldset>
         </form>
       </div>
