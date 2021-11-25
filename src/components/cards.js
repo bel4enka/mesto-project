@@ -1,15 +1,6 @@
-import {initialCards} from "./initial-cards.js";
-import {setFormSubmitHandler, editProfile, editAvatar,} from '../pages/index'
-import { openPopup, setupPopupEventHandlers, setOpenPopupEventHandlers, closePopup} from './modal.js'
-import {
-  delCard,
-  delLike,
-  getDataUser,
-  getInitialCards,
-  putUserData,
-  putLike,
-  putNewCard,
-} from './api.js'
+import { setFormSubmitHandler, editProfile, editAvatar } from '../pages/index'
+import { openPopup, setupPopupEventHandlers, setOpenPopupEventHandlers, closePopup } from './modal.js'
+import { delCard, delLike, getUserData, getInitialCards, putLike, putNewCard,} from './api.js'
 
 const imagePopup = document.querySelector('.popup_type_photo');
 const placeListContainer = document.querySelector('.gallery__list');
@@ -30,12 +21,11 @@ export function renderLoading(isLoading) {
     formEdit.querySelector('.form__button').textContent = 'Сохранение...'
   } else {
     formEdit.querySelector('.form__button').textContent = 'Сохранить'
-
   }
 }
 
 export function getUser () {
- return getDataUser()
+ return getUserData()
     .then((res) => {
       user = {
         id: res._id,
@@ -58,7 +48,17 @@ function addInitialCards() {
     .then((res) => {
       cards = [];
       for(let i = 0; i < res.length; i++) {
-        cards.push(res[i])
+        cards.push(
+          {
+            id: res[i]._id,
+            name: res[i].name,
+            owner: res[i].owner._id,
+            link: res[i].link,
+            likes: {
+              count: res[i].likes.length,
+              liked: false,
+            }
+          })
       }
     })
     .catch((e) => {
@@ -77,6 +77,7 @@ function addCardToList(card) {
  * Проверяет авторство карточки и удаляет кнопку удаления
  */
 function isMyCard (card, cardData) {
+
   if (user.id.toString() !== cardData.owner.toString()) {
     card.querySelector('.photo__del').remove()
   }
@@ -85,11 +86,14 @@ function isMyCard (card, cardData) {
  * Проверяет является ли лайк текущего автора
  */
 function isMyLike(target, selector) {
-  for(let i = 0; i < target.likes.length; i++) {
-    if(target.likes[i]._id.toString() === user.id.toString()) {
-      selector.classList.add('photo__heart_active')
-    }
-  }
+
+
+  // for(let i = 0; i < target.likes.length; i++) {
+  //   console.log(target.likes)
+  //   if(target.likes[i].owner._id.toString() !== user.id.toString()) {
+  //     selector.classList.add('photo__heart_active')
+  //   }
+  // }
 }
 
 /**
@@ -102,7 +106,8 @@ function createCard(cardData) {
   card.querySelector('.photo__name').textContent = cardData.name;
   card.querySelector('.photo__img').src = cardData.link;
   card.querySelector('.photo__img').alt = cardData.name;
-  card.setAttribute('data-id', cardData._id)
+  card.setAttribute('data-id', cardData.id)
+
   if (cardData.likes.length > 0) {
     card.querySelector('.photo__likes').textContent = cardData.likes.length;
     isMyLike(cardData, card.querySelector('.photo__heart'))
@@ -115,10 +120,10 @@ function createCard(cardData) {
 /**
  * Удаление карточки (места)
  */
-export function deletePlace(target) {
-  target.closest('.gallery__item').remove()
-  const cardId = target.closest('.gallery__item').getAttribute('data-id')
-  delCard(cardId)
+export function deletePlace(idCard, selector) {
+  selector.closest('.gallery__item').remove()
+  // const cardId = target.closest('.gallery__item').getAttribute('data-id')
+  delCard(idCard)
 
 }
 /**
@@ -180,32 +185,42 @@ Promise.all([
     imgAvatar.src = user.avatar;
 
     cards.forEach(function (el) {
+      // console.log(el.likes.count)
+
       const card = createCard(el)
       addCardToList(card);
+
+      if (el.owner.toString() === user.id.toString()) {
+        console.log(el.owner)
+        console.log(user.id)
+
+        document.querySelectorAll('.photo__heart').forEach(function (el) {
+          el.classList.add('photo__heart_active')
+        })
+      }
       })
+
+
   })
   .catch(err => {
     console.error(err);
   });
 
 setOpenPopupEventHandlers ('.popup_type_profile', '.profile__edit-button', function () {
-
-
   const form = document.querySelector('.form-edit')
 
   formElementName.value = nameAvatar.textContent;
   formElementActivity.value = activityAvatar.textContent;
   form.validate()
-
 })
+
 setOpenPopupEventHandlers('.popup_type_place', '.profile__add-button', function () {
 })
 
 setOpenPopupEventHandlers('.popup_type_avatar', '.profile__avatar-link', function () {
-
 })
-setupPopupEventHandlers()
 
+setupPopupEventHandlers()
 
 /**
  * Вызов обработчика событий для каждой из форм. Первый аргумент селектор формы, второй название функции для вызова внутри
@@ -213,6 +228,7 @@ setupPopupEventHandlers()
 setFormSubmitHandler('.form-edit', editProfile);
 
 setFormSubmitHandler('.form-avatar', editAvatar);
+
 
 /**
  * Дополнительно передаём данные из формы
@@ -233,6 +249,7 @@ setFormSubmitHandler('.form-place', function (form) {
   putNewCard(cardData)
     .then((res) => {
      card.setAttribute('data-id', res._id)
+      // cardData.owner = res.owner.id;
     })
     .catch((e) => {
       console.log(e)

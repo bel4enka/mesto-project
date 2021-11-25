@@ -14,11 +14,12 @@ const parseResponse = (res) => {
   return Promise.reject(`Ошибка ${res.status}`)
 }
 
-export function getDataUser () {
+export function getUserData () {
   return fetch(`${config.baseUrl}/users/me`, {
     headers: config.headers
   })
     .then(parseResponse)
+    .then()
 }
 
 export const getInitialCards = () => {

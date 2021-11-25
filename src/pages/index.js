@@ -2,7 +2,7 @@ import './index.css';
 
 
 import {enableValidation} from '../components/validate.js';
-import {closePopup} from '../components/modal.js';
+import {closePopup, openPopup} from '../components/modal.js';
 import {deletePlace, toggleLike, openPlace, renderLoading} from '../components/cards.js';
 import {putUserData, putImgAvatar, putLike} from "../components/api";
 
@@ -60,14 +60,17 @@ document.querySelector('.gallery__list').addEventListener('click', function (e) 
   const target = e.target;
 
   if (target.classList.contains('photo__del')) {
-    deletePlace(target)
+    // deletePlace(target)
+    const popup = document.querySelector('.popup_type_confirm')
+    openPopup(popup)
+    const idCard = target.closest('.gallery__item').getAttribute('data-id')
+    setFormSubmitDelCardHandler('.form-confirm', idCard, target);
   } else if (target.classList.contains('photo__heart')) {
     toggleLike(target)
   } else if (target.classList.contains('photo__img')) {
     openPlace(target)
   }
 })
-
 
 /**
  * Обработчик события на формы ввода
@@ -77,6 +80,14 @@ export function setFormSubmitHandler(formSelector, callFunc) {
     form.addEventListener('submit', function (e) {
         callFunc(form);
     });
+}
+export function setFormSubmitDelCardHandler(formSelector, idCard, selector) {
+  const form = document.querySelector(formSelector);
+  form.addEventListener('submit', function (e) {
+    deletePlace(idCard, selector)
+    closePopup()
+  });
+
 }
 /**
  * Закрытие popup по клику на оверлей
