@@ -35,7 +35,6 @@ export function editProfile() {
     })
     .finally(() => {
       renderLoading(false)
-      closePopup()
     });
 }
 
@@ -60,10 +59,11 @@ document.querySelector('.gallery__list').addEventListener('click', function (e) 
   const target = e.target;
 
   if (target.classList.contains('photo__del')) {
-    // deletePlace(target)
     const popup = document.querySelector('.popup_type_confirm')
     openPopup(popup)
     const idCard = target.closest('.gallery__item').getAttribute('data-id')
+    console.log(idCard +' из общего списка кликов')
+
     setFormSubmitDelCardHandler('.form-confirm', idCard, target);
   } else if (target.classList.contains('photo__heart')) {
     toggleLike(target)
@@ -83,9 +83,11 @@ export function setFormSubmitHandler(formSelector, callFunc) {
 }
 export function setFormSubmitDelCardHandler(formSelector, idCard, selector) {
   const form = document.querySelector(formSelector);
+  console.log(idCard +' из setFormSubmitDelCardHandler')
+  console.log(formSelector)
+
   form.addEventListener('submit', function (e) {
     deletePlace(idCard, selector)
-    closePopup()
   });
 
 }

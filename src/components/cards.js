@@ -11,9 +11,9 @@ const formElementActivity = document.querySelector('.form__item_el_activity');
 let nameAvatar = document.querySelector('.profile__name');
 let activityAvatar = document.querySelector('.profile__activity');
 let imgAvatar = document.querySelector('.profile__avatar');
-let user;
+let currentUser;
 const formEdit = document.querySelector('.form-edit');
-let cards;
+let currentCards;
 
 export function renderLoading(isLoading) {
 
@@ -26,14 +26,8 @@ export function renderLoading(isLoading) {
 
 export function getUser () {
  return getUserData()
-    .then((res) => {
-      user = {
-        id: res._id,
-        name: res.name,
-        about: res.about,
-        avatar: res.avatar
-      }
-
+    .then((user) => {
+      currentUser = user
     })
     .catch((e) => {
       console.log(e)
@@ -45,22 +39,9 @@ export function getUser () {
  */
 function addInitialCards() {
  return  getInitialCards()
-    .then((res) => {
-      cards = [];
-      for(let i = 0; i < res.length; i++) {
-        cards.push(
-          {
-            id: res[i]._id,
-            name: res[i].name,
-            owner: res[i].owner._id,
-            link: res[i].link,
-            likes: {
-              count: res[i].likes.length,
-              liked: false,
-            }
-          })
-      }
-    })
+    .then((cards) => {
+      currentCards = cards}
+    )
     .catch((e) => {
       console.log(e)
     })
@@ -78,22 +59,9 @@ function addCardToList(card) {
  */
 function isMyCard (card, cardData) {
 
-  if (user.id.toString() !== cardData.owner.toString()) {
+  if (currentUser.id.toString() !== cardData.owner.toString()) {
     card.querySelector('.photo__del').remove()
   }
-}
-/**
- * Проверяет является ли лайк текущего автора
- */
-function isMyLike(target, selector) {
-
-
-  // for(let i = 0; i < target.likes.length; i++) {
-  //   console.log(target.likes)
-  //   if(target.likes[i].owner._id.toString() !== user.id.toString()) {
-  //     selector.classList.add('photo__heart_active')
-  //   }
-  // }
 }
 
 /**
@@ -110,7 +78,9 @@ function createCard(cardData) {
 
   if (cardData.likes.length > 0) {
     card.querySelector('.photo__likes').textContent = cardData.likes.length;
-    isMyLike(cardData, card.querySelector('.photo__heart'))
+    if (cardData.likes.includes(currentUser.id)) {
+      card.querySelector('.photo__heart').classList.add('photo__heart_active')
+    }
   }
 
   isMyCard(card, cardData)
@@ -121,9 +91,10 @@ function createCard(cardData) {
  * Удаление карточки (места)
  */
 export function deletePlace(idCard, selector) {
+  console.log(idCard +' из deletePlace')
   selector.closest('.gallery__item').remove()
-  // const cardId = target.closest('.gallery__item').getAttribute('data-id')
   delCard(idCard)
+  closePopup()
 
 }
 /**
@@ -151,7 +122,7 @@ export function toggleLike(target) {
           if (res.likes.length > 0) {
             target.nextElementSibling.textContent = res.likes.length;
           }
-          isMyLike(res, target)
+          target.classList.add('photo__heart_active')
         })
         .catch((e) => {
           console.log(e)
@@ -173,34 +144,21 @@ export function openPlace(target) {
   popupPhoto.alt = popupPhotoNameTarget;
 }
 
-
-
-
+/**
+ * Получаем юзера и карточки одновременно
+ */
 Promise.all([
   getUser(),
   addInitialCards()
 ]).then(() => {
-    nameAvatar.textContent = user.name;
-    activityAvatar.textContent = user.about;
-    imgAvatar.src = user.avatar;
+    nameAvatar.textContent = currentUser.name;
+    activityAvatar.textContent = currentUser.about;
+    imgAvatar.src = currentUser.avatar;
 
-    cards.forEach(function (el) {
-      // console.log(el.likes.count)
-
+    currentCards.forEach(function (el) {
       const card = createCard(el)
       addCardToList(card);
-
-      if (el.owner.toString() === user.id.toString()) {
-        console.log(el.owner)
-        console.log(user.id)
-
-        document.querySelectorAll('.photo__heart').forEach(function (el) {
-          el.classList.add('photo__heart_active')
-        })
-      }
       })
-
-
   })
   .catch(err => {
     console.error(err);
@@ -229,7 +187,6 @@ setFormSubmitHandler('.form-edit', editProfile);
 
 setFormSubmitHandler('.form-avatar', editAvatar);
 
-
 /**
  * Дополнительно передаём данные из формы
  */
@@ -239,7 +196,7 @@ setFormSubmitHandler('.form-place', function (form) {
     name: document.querySelector('.form__item_el_name-place').value,
     link: document.querySelector('.form__item_el_img').value,
     likes: 0,
-    owner: user.id
+    owner: currentUser.id
   }
   const card = createCard(cardData)
 
@@ -249,7 +206,6 @@ setFormSubmitHandler('.form-place', function (form) {
   putNewCard(cardData)
     .then((res) => {
      card.setAttribute('data-id', res._id)
-      // cardData.owner = res.owner.id;
     })
     .catch((e) => {
       console.log(e)

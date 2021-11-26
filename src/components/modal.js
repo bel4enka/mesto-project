@@ -3,7 +3,9 @@
  */
 export function setOpenPopupEventHandlers(popupSelector, openSelector, callback) {
   const popup = document.querySelector(popupSelector)
-  document.querySelector(openSelector).addEventListener('click', function () {
+  document.querySelector(openSelector).addEventListener('click', function (e) {
+    e.preventDefault();
+
     callback()
     openPopup(popup)})
 }
