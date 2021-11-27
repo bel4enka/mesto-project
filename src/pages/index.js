@@ -12,30 +12,31 @@ const profileName = document.querySelector('.profile__name')
 const profileActivity = document.querySelector('.profile__activity');
 const profileAvatar = document.querySelector('.profile__avatar');
 const formDelCard = document.querySelector('.form-confirm');
+const avatarLink = document.querySelector('#link-avatar-input')
 /**
  * Редактирование профиля
  */
 export function editProfile() {
-   profileName.textContent = name.value;
-   profileActivity.textContent = activity.value;
 
   const
-    avatar = {
+    profileData = {
     name: name.value,
     about: activity.value,
   }
 
   renderLoading(true)
 
-  putUserData(avatar)
+  putUserData(profileData)
     .then((res) => {
+      profileName.textContent = name.value;
+      profileActivity.textContent = activity.value;
+      closePopup()
     })
     .catch((e) => {
       console.log(e)
     })
     .finally(() => {
       renderLoading(false)
-      closePopup()
     });
 }
 
@@ -43,21 +44,23 @@ export function editProfile() {
  * Редактирование аватара
  */
 export function editAvatar() {
-  const avatarLink = document.querySelector('#link-avatar-input').value;
-  profileAvatar.src = avatarLink;
 
   const avatarImg = {
-    avatar: avatarLink
+    avatar: avatarLink.value
   }
   putImgAvatar(avatarImg)
-
-
+    .then((res) => {
+      profileAvatar.src = avatarLink.value;
+      closePopup()
+    })
+    .catch((e) => {
+      console.log(e)
+    })
 }
 /**
- * Обработчики событий на общий контейнер с фотографиями Мест
+ * Для события на общий контейнер с фотографиями Мест
  */
-document.querySelector('.gallery__list').addEventListener('click', function (e) {
-
+export function placeContainerEventHandlers(e) {
   const target = e.target;
 
   if (target.classList.contains('photo__del')) {
@@ -70,8 +73,7 @@ document.querySelector('.gallery__list').addEventListener('click', function (e) 
   } else if (target.classList.contains('photo__img')) {
     openPlace(target)
   }
-
-})
+}
 
 /**
  * Обработчик события на формы ввода
@@ -89,7 +91,6 @@ export function setFormSubmitHandler(formSelector, callFunc) {
     const selector = document.querySelector(`li[data-id="${cardId}"]`)
     deletePlace(cardId, selector)
   });
-
 }
 
 /**

@@ -29,7 +29,10 @@ export function openPopup(popup) {
  * Закрытие карточки
  */
 export function closePopup() {
-  document.querySelector('.popup_opened').classList.remove('popup_opened');
+  const openedPopup = document.querySelector('.popup_opened')
+  if (openedPopup) {
+    openedPopup.classList.remove('popup_opened');
+  }
   document.removeEventListener('keydown', closeEsc)
 }
 
