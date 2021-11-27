@@ -1,6 +1,5 @@
 import './index.css';
 
-
 import {enableValidation} from '../components/validate.js';
 import {closePopup, openPopup} from '../components/modal.js';
 import {deletePlace, toggleLike, openPlace, renderLoading} from '../components/cards.js';
@@ -12,6 +11,7 @@ const activity = document.querySelector('.form__item_el_activity');
 const profileName = document.querySelector('.profile__name')
 const profileActivity = document.querySelector('.profile__activity');
 const profileAvatar = document.querySelector('.profile__avatar');
+const formDelCard = document.querySelector('.form-confirm');
 /**
  * Редактирование профиля
  */
@@ -35,6 +35,7 @@ export function editProfile() {
     })
     .finally(() => {
       renderLoading(false)
+      closePopup()
     });
 }
 
@@ -49,27 +50,27 @@ export function editAvatar() {
     avatar: avatarLink
   }
   putImgAvatar(avatarImg)
-  closePopup()
+
 
 }
 /**
  * Обработчики событий на общий контейнер с фотографиями Мест
  */
 document.querySelector('.gallery__list').addEventListener('click', function (e) {
+
   const target = e.target;
 
   if (target.classList.contains('photo__del')) {
     const popup = document.querySelector('.popup_type_confirm')
     openPopup(popup)
-    const idCard = target.closest('.gallery__item').getAttribute('data-id')
-    console.log(idCard +' из общего списка кликов')
-
-    setFormSubmitDelCardHandler('.form-confirm', idCard, target);
+    const idCard = target.closest('.gallery__item').getAttribute('data-id');
+    popup.querySelector('.form-confirm').setAttribute('data-id', idCard)
   } else if (target.classList.contains('photo__heart')) {
     toggleLike(target)
   } else if (target.classList.contains('photo__img')) {
     openPlace(target)
   }
+
 })
 
 /**
@@ -81,16 +82,16 @@ export function setFormSubmitHandler(formSelector, callFunc) {
         callFunc(form);
     });
 }
-export function setFormSubmitDelCardHandler(formSelector, idCard, selector) {
-  const form = document.querySelector(formSelector);
-  console.log(idCard +' из setFormSubmitDelCardHandler')
-  console.log(formSelector)
+ function setFormSubmitDelCardHandler() {
 
-  form.addEventListener('submit', function (e) {
-    deletePlace(idCard, selector)
+  formDelCard.addEventListener('submit', function (e) {
+    const cardId = formDelCard.getAttribute('data-id');
+    const selector = document.querySelector(`li[data-id="${cardId}"]`)
+    deletePlace(cardId, selector)
   });
 
 }
+
 /**
  * Закрытие popup по клику на оверлей
  */
@@ -110,3 +111,4 @@ enableValidation({
     inputErrorClass: 'form__item_type_error',
     errorClass: 'form__item-error_active'
 });
+setFormSubmitDelCardHandler()

@@ -91,7 +91,6 @@ function createCard(cardData) {
  * Удаление карточки (места)
  */
 export function deletePlace(idCard, selector) {
-  console.log(idCard +' из deletePlace')
   selector.closest('.gallery__item').remove()
   delCard(idCard)
   closePopup()
