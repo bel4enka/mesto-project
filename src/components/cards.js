@@ -12,12 +12,12 @@ const nameAvatar = document.querySelector('.profile__name');
 const activityAvatar = document.querySelector('.profile__activity');
 const imgAvatar = document.querySelector('.profile__avatar');
 let currentUser;
-const editUserForm = {form: document.querySelector('.form-edit')}
-editUserForm.saveButton = editUserForm.form.querySelector('.form__button')
 let currentCards;
+const formPlace = document.querySelector('.form-place')
 
-export function renderLoading(isLoading) {
-  editUserForm.saveButton.textContent = isLoading ? 'Сохранение...' : 'Сохранить'
+export function renderLoading(isLoading, form) {
+  const button = form.querySelector('.form__button')
+  button.textContent = isLoading ? 'Сохранение...' : 'Сохранить'
 }
 
 /**
@@ -31,10 +31,20 @@ function addCardToList(card) {
  * Проверяет авторство карточки и удаляет кнопку удаления
  */
 function isMyCard (card, cardData) {
-
+  const cardDelButton = card.querySelector('.photo__del');
   if (currentUser.id.toString() !== cardData.owner.toString()) {
-    card.querySelector('.photo__del').remove()
+    cardDelButton.remove()
   }
+
+  cardDelButton.addEventListener('click', function (e) {
+    const target = e.target;
+    const popup = document.querySelector('.popup_type_confirm')
+
+    openPopup(popup)
+    const idCard = target.closest('.gallery__item').getAttribute('data-id');
+    popup.querySelector('.form-confirm').setAttribute('data-id', idCard)
+  })
+
 }
 
 /**
@@ -44,21 +54,32 @@ function createCard(cardData) {
 
   const placeTemplate = document.querySelector('#gallery-item').content;
   const card = placeTemplate.querySelector('.gallery__item').cloneNode(true);
+  const cardImage = card.querySelector('.photo__img');
+  const cardLikeCount = card.querySelector('.photo__likes');
+  const cardLikeButton = card.querySelector('.photo__heart');
+
   card.querySelector('.photo__name').textContent = cardData.name;
-  card.querySelector('.photo__img').src = cardData.link;
+  cardImage.src = cardData.link;
   card.querySelector('.photo__img').alt = cardData.name;
   card.setAttribute('data-id', cardData.id)
 
   if (cardData.likes.length > 0) {
-    card.querySelector('.photo__likes').textContent = cardData.likes.length;
+    cardLikeCount.textContent = cardData.likes.length;
     if (cardData.likes.includes(currentUser.id)) {
-      card.querySelector('.photo__heart').classList.add('photo__heart_active')
+      cardLikeButton.classList.add('photo__heart_active')
     }
   }
 
   isMyCard(card, cardData)
 
-  placeListContainer.addEventListener('click', placeContainerEventHandlers)
+  cardLikeButton.addEventListener('click', function (e) {
+    const target = e.target;
+    toggleLike(target)
+  })
+  cardImage.addEventListener('click', function (e) {
+    const target = e.target;
+    openPlace(target)
+  })
   return card
 }
 
@@ -183,8 +204,10 @@ setFormSubmitHandler('.form-place', function (form) {
     likes: 0,
     owner: currentUser.id
   }
+  renderLoading(true, formPlace)
 
   putNewCard(cardData)
+
     .then((res) => {
       const card = createCard(cardData)
       addCardToList(card);
@@ -195,4 +218,7 @@ setFormSubmitHandler('.form-place', function (form) {
     .catch((e) => {
       console.log(e)
     })
+    .finally(() => {
+      renderLoading(false, formPlace)
+    });
 });

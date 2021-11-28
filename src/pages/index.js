@@ -1,8 +1,8 @@
 import './index.css';
 
 import {enableValidation} from '../components/validate.js';
-import {closePopup, openPopup} from '../components/modal.js';
-import {deletePlace, toggleLike, openPlace, renderLoading} from '../components/cards.js';
+import {closePopup} from '../components/modal.js';
+import {deletePlace, renderLoading} from '../components/cards.js';
 import {putUserData, putImgAvatar, putLike} from "../components/api";
 
 
@@ -12,7 +12,10 @@ const profileName = document.querySelector('.profile__name')
 const profileActivity = document.querySelector('.profile__activity');
 const profileAvatar = document.querySelector('.profile__avatar');
 const formDelCard = document.querySelector('.form-confirm');
-const avatarLink = document.querySelector('#link-avatar-input')
+const avatarLink = document.querySelector('#link-avatar-input');
+const formEdit = document.querySelector('.form-edit');
+const formAvatar = document.querySelector('.form-avatar');
+
 /**
  * Редактирование профиля
  */
@@ -24,7 +27,7 @@ export function editProfile() {
     about: activity.value,
   }
 
-  renderLoading(true)
+  renderLoading(true, formEdit)
 
   putUserData(profileData)
     .then((res) => {
@@ -36,7 +39,7 @@ export function editProfile() {
       console.log(e)
     })
     .finally(() => {
-      renderLoading(false)
+      renderLoading(false, formEdit)
     });
 }
 
@@ -44,6 +47,7 @@ export function editProfile() {
  * Редактирование аватара
  */
 export function editAvatar() {
+  renderLoading(true, formAvatar)
 
   const avatarImg = {
     avatar: avatarLink.value
@@ -56,23 +60,9 @@ export function editAvatar() {
     .catch((e) => {
       console.log(e)
     })
-}
-/**
- * Для события на общий контейнер с фотографиями Мест
- */
-export function placeContainerEventHandlers(e) {
-  const target = e.target;
-
-  if (target.classList.contains('photo__del')) {
-    const popup = document.querySelector('.popup_type_confirm')
-    openPopup(popup)
-    const idCard = target.closest('.gallery__item').getAttribute('data-id');
-    popup.querySelector('.form-confirm').setAttribute('data-id', idCard)
-  } else if (target.classList.contains('photo__heart')) {
-    toggleLike(target)
-  } else if (target.classList.contains('photo__img')) {
-    openPlace(target)
-  }
+    .finally(() => {
+      renderLoading(false, formAvatar)
+    });
 }
 
 /**
